@@ -40,5 +40,5 @@ public class User {
             name = "subscriptions",
             joinColumns = @JoinColumn( name = "user_id" ),
             inverseJoinColumns = @JoinColumn( name = "topic_id" ) )
-    private List<Topic> subscriptions;
+    private List<Topic> topics;
 }
