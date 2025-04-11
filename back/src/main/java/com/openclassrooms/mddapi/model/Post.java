@@ -35,7 +35,7 @@ import java.time.LocalDateTime;
         @JoinColumn(name = "topic_id")
         private Topic topic;
 
-        @Column(nullable = false)
+        @Column
         private LocalDateTime createdAt;
 
 
