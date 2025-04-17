@@ -2,6 +2,8 @@ package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.request.CreateCommentRequest;
 import com.openclassrooms.mddapi.dto.request.CreatePostRequest;
+import com.openclassrooms.mddapi.model.User;
+import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.service.IPostService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -9,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -19,10 +23,11 @@ import java.util.NoSuchElementException;
 public class PostController {
 
     private final IPostService postService;
+    private final UserRepository userRepository;
 
     @GetMapping
-    public ResponseEntity<?> getAllPosts(@RequestParam(defaultValue = "desc") String order) {
-        return ResponseEntity.ok(postService.getAllPostsSorted(order));
+    public ResponseEntity<?> getAllPosts(@RequestParam(defaultValue = "desc") String order,@RequestParam List<Long> topicIds) {
+        return ResponseEntity.ok(postService.getAllPostsSorted(order,topicIds));
     }
 
     @GetMapping("/{id}")
@@ -37,7 +42,12 @@ public class PostController {
     @PostMapping
     public ResponseEntity<?> createPost(@RequestBody CreatePostRequest request) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(request));
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userRepository.findByEmailOrUsername(email)
+                    .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(postService.createPost(request, user.getId()));
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -46,7 +56,12 @@ public class PostController {
     @PostMapping("/{id}/comments")
     public ResponseEntity<?> commentOnPost(@PathVariable Long id, @RequestBody CreateCommentRequest request) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(postService.commentOnPost(id, request));
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userRepository.findByEmailOrUsername(email)
+                    .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(postService.commentOnPost(id, request, user.getId()));
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

@@ -4,6 +4,6 @@ import com.openclassrooms.mddapi.dto.request.UpdateUserRequest;
 import com.openclassrooms.mddapi.model.User;
 
 public interface IUserService {
-    User getUserById(Long id);
+    User getUserByMail(String username);
     User updateUser(Long id, UpdateUserRequest request);
 }

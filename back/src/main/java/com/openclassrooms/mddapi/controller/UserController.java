@@ -1,12 +1,16 @@
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.request.UpdateUserRequest;
+import com.openclassrooms.mddapi.dto.response.UserResponseDTO;
+import com.openclassrooms.mddapi.mapper.UserMapper;
 import com.openclassrooms.mddapi.model.User;
+import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
@@ -19,28 +23,33 @@ public class UserController {
     @Autowired
     private final IUserService userService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getUser(@PathVariable Long id) {
-
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    @GetMapping("/me")
+    public ResponseEntity<?> getUser() {
         try {
-            User user = userService.getUserById(id);
-            return ResponseEntity.ok(user);
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+
+
+            UserResponseDTO dto = userMapper.toDto(userService.getUserByMail(username));
+            return ResponseEntity.ok(dto);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(
-            @PathVariable Long id,
-            @RequestBody UpdateUserRequest request
-    ) {
-
+    @PutMapping("/me")
+    public ResponseEntity<?> updateUser(@RequestBody UpdateUserRequest request) {
         try {
-            User updatedUser = userService.updateUser(id, request);
-            return ResponseEntity.ok(updatedUser);
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userRepository.findByEmailOrUsername(username)
+                    .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+
+            User updated = userService.updateUser(user.getId(), request);
+            UserResponseDTO dto = userMapper.toDto(updated);
+            return ResponseEntity.ok(dto);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-    }
-}
+    }}

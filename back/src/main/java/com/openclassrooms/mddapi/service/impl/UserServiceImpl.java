@@ -6,6 +6,7 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -18,8 +19,9 @@ public class UserServiceImpl implements IUserService {
     private final UserRepository userRepository;
 
     @Override
-    public User getUserById(Long id) {
-        return userRepository.findById(id)
+    public User getUserByMail(String username) {
+
+        return userRepository.findByEmail(username)
                 .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
     }
 
@@ -30,7 +32,7 @@ public class UserServiceImpl implements IUserService {
 
         user.setEmail(request.getEmail());
         user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword()); // ⚠️ à encoder plus tard
+        user.setPassword(request.getPassword()); // à encoder plus tard
 
         return userRepository.save(user);
     }

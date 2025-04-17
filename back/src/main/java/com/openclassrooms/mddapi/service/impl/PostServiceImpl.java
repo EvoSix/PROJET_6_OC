@@ -34,7 +34,7 @@ public class PostServiceImpl implements IPostService {
     private final CommentMapper commentMapper;
 
     @Override
-    public List<PostResponseDTO> getAllPostsSorted(String order) {
+    public List<PostResponseDTO> getAllPostsSorted(String order, List<Long> topicIds) {
         List<Post> posts = "asc".equalsIgnoreCase(order)
                 ? postRepository.findAllByOrderByCreatedAtAsc()
                 : postRepository.findAllByOrderByCreatedAtDesc();
@@ -49,8 +49,8 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public PostResponseDTO  createPost(CreatePostRequest request) {
-        User author = userRepository.findById(request.getAuthorId())
+    public PostResponseDTO createPost(CreatePostRequest request, Long authorId) {
+        User author = userRepository.findById(authorId)
                 .orElseThrow(() -> new NoSuchElementException("Auteur non trouvé"));
 
         Topic topic = topicRepository.findById(request.getTopicId())
@@ -67,11 +67,11 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public CommentResponseDTO commentOnPost(Long postId, CreateCommentRequest request) {
+    public CommentResponseDTO commentOnPost(Long postId, CreateCommentRequest request, Long authorId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new NoSuchElementException("Post non trouvé"));
 
-        User author = userRepository.findById(request.getAuthorId())
+        User author = userRepository.findById(authorId)
                 .orElseThrow(() -> new NoSuchElementException("Auteur non trouvé"));
 
         Comment comment = new Comment();
