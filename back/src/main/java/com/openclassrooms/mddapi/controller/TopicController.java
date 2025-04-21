@@ -4,6 +4,7 @@ import com.openclassrooms.mddapi.dto.request.TopicSubscriptionRequest;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.service.ITopicService;
+import com.openclassrooms.mddapi.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,15 +18,16 @@ import java.util.NoSuchElementException;
 public class TopicController {
 
     private final ITopicService topicService;
+    private final IUserService userService;
 
-    private final UserRepository userRepository;
 
     @GetMapping
     public ResponseEntity<?> getAllTopics() {
         try {
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
-            User user = userRepository.findByEmailOrUsername(email)
-                    .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+
+            User user=    userService.getUserByMail(email);
+
 
             return ResponseEntity.ok(topicService.getAllTopicsWithUserSubscriptions(user.getId()));
         } catch (NoSuchElementException e) {
@@ -37,8 +39,7 @@ public class TopicController {
     public ResponseEntity<?> subscribe(@PathVariable Long topicId) {
         try {
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
-            User user = userRepository.findByEmailOrUsername(email)
-                    .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+            User user=    userService.getUserByMail(email);
 
             topicService.subscribeToTopic(topicId, user.getId());
             return ResponseEntity.ok("Abonnement effectué.");
@@ -51,8 +52,7 @@ public class TopicController {
     public ResponseEntity<?> unsubscribe(@PathVariable Long topicId) {
         try {
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
-            User user = userRepository.findByEmailOrUsername(email)
-                    .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+            User user=    userService.getUserByMail(email);
 
             topicService.unsubscribeFromTopic(topicId, user.getId());
             return ResponseEntity.ok("Désabonnement effectué.");

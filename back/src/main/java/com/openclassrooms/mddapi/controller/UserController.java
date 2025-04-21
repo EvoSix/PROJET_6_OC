@@ -43,9 +43,8 @@ public class UserController {
     public ResponseEntity<?> updateUser(@RequestBody UpdateUserRequest request) {
         try {
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            User user = userRepository.findByEmailOrUsername(username)
-                    .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
 
+User user = userService.getUserByMailorUserName(   username);
             User updated = userService.updateUser(user.getId(), request);
             UserResponseDTO dto = userMapper.toDto(updated);
             return ResponseEntity.ok(dto);

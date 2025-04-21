@@ -19,9 +19,13 @@ public class UserServiceImpl implements IUserService {
     private final UserRepository userRepository;
 
     @Override
-    public User getUserByMail(String username) {
+    public User getUserByMail(String email) {
 
-        return userRepository.findByEmail(username)
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+    }
+    public User getUserByMailorUserName(String userName) {
+    return userRepository.findByEmailOrUsername(userName)
                 .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
     }
 
