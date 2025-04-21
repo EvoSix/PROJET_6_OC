@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -22,12 +24,12 @@ public class AuthController {
     private IAuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody RegisterRequest request) {
         try {
             authService.register(request);
-            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+            return ResponseEntity.status(HttpStatus.CREATED).body(Collections.singletonMap("message", "User registered successfully"));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Collections.singletonMap("message",e.getMessage()));
         }
     }
 
