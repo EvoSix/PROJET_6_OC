@@ -1,0 +1,24 @@
+<main>
+    <nav><a href="/">RETOUR</a></nav>
+    <h2>Inscription</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+ 
+        
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Email ou nom d'utilisateur</mat-label>
+            <input matInput formControlName="identifier" />
+            <mat-error *ngIf="submitted && f.['identifier'].errors?.['required']">
+              Ce champ est requis
+            </mat-error>
+          </mat-form-field>
+ 
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Mot de passe</mat-label>
+            <input matInput type="password" formControlName="password" />
+            <mat-error *ngIf="submitted && f['password'].errors?.['required']">
+              Le mot de passe est requis
+            </mat-error>
+          </mat-form-field>
+        <button type="submit" [disabled]="loading">  {{ loading ? 'Connexion...' : 'Se connecter' }}</button>
+    </form>
+    </main>

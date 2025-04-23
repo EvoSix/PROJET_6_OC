@@ -13,4 +13,7 @@ export class HomeComponent implements OnInit {
   register() {
     window.location.href = '/register';
   }
+  login() {
+    window.location.href = '/login';
+  }
 }

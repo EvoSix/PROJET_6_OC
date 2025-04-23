@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 import com.openclassrooms.mddapi.dto.request.LoginRequest;
 import com.openclassrooms.mddapi.dto.request.RegisterRequest;
+import com.openclassrooms.mddapi.dto.response.AuthResponseDTO;
 import com.openclassrooms.mddapi.service.IAuthService;
 import com.openclassrooms.mddapi.service.impl.AuthServiceImpl;
 import lombok.AllArgsConstructor;
@@ -34,14 +35,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginRequest request) {
         try {
             String token = authService.login(request);
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok(new AuthResponseDTO(token, "Connexion réussie"));
         } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new AuthResponseDTO("", e.getMessage()));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponseDTO("", e.getMessage()));
         }
     }
 }
