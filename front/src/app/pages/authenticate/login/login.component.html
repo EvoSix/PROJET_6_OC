@@ -1,4 +1,5 @@
 <main>
+  <app-header></app-header>
     <nav><a href="/">RETOUR</a></nav>
     <h2>Inscription</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -7,7 +8,7 @@
         <mat-form-field appearance="fill" class="full-width">
             <mat-label>Email ou nom d'utilisateur</mat-label>
             <input matInput formControlName="identifier" />
-            <mat-error *ngIf="submitted && f.['identifier'].errors?.['required']">
+            <mat-error *ngIf="submitted && f['identifier'].errors?.['required']">
               Ce champ est requis
             </mat-error>
           </mat-form-field>

@@ -48,6 +48,7 @@ public class AuthServiceImpl implements IAuthService {
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+
             throw new IllegalArgumentException("Wrong password");
         }
 

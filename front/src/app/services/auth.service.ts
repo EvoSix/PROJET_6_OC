@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { RegisterRequest } from '../interfaces/registerRequest';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginRequest } from '../interfaces/LoginRequest';
 
 @Injectable({
@@ -11,12 +11,30 @@ import { LoginRequest } from '../interfaces/LoginRequest';
 export class AuthService {
   private http = inject(HttpClient);
   private apiUrl = environment.baseUrl;
-
+  private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
+  isLoggedIn$ = this.isLoggedInSubject.asObservable();
   constructor() {}
+
+  private hasToken(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
   register(registerRequest: RegisterRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}auth/register`, registerRequest);
   }
   login(payload: LoginRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}auth/login`, payload);
+  }
+  isLoggedIn(): boolean {
+    const token = localStorage.getItem('token');
+    return !!token;
+  }
+  logout(): void {
+    localStorage.removeItem('token');
+    this.isLoggedInSubject.next(false);
+  }
+  setLoggedIn(token: string): void {
+    localStorage.setItem('token', token);
+    this.isLoggedInSubject.next(true);
   }
 }

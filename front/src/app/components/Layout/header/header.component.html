@@ -1,0 +1,10 @@
+<header>
+<mat-toolbar color="primary">
+    <ng-container *ngIf="isLoggedIn$ | async">
+      <button mat-button routerLink="/articles">Articles</button>
+      <button mat-button routerLink="/topics">Topics</button>
+      <button mat-button routerLink="/account">Mon compte</button>
+      <button mat-button (click)="logout()">Déconnexion</button>
+    </ng-container>
+  </mat-toolbar>
+</header>
