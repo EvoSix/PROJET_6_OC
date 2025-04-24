@@ -10,7 +10,7 @@ import com.openclassrooms.mddapi.model.Post;
 import java.util.List;
 
 public interface IPostService {
-    List<PostResponseDTO> getAllPostsSorted(String order, List<Long> topicIds);
+    List<PostResponseDTO> getAllPostsSorted(String order);
     PostResponseDTO getPostById(Long id);
     PostResponseDTO createPost(CreatePostRequest request, Long authorId);
     CommentResponseDTO commentOnPost(Long postId, CreateCommentRequest request, Long authorId);

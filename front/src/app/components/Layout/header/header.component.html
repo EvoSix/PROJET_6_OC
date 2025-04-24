@@ -1,10 +1,11 @@
 <header>
-<mat-toolbar color="primary">
+<mat-toolbar >
+  <img src="/assets/logo_p6.png" alt="Logo" height="80px">
     <ng-container *ngIf="isLoggedIn$ | async">
       <button mat-button routerLink="/articles">Articles</button>
       <button mat-button routerLink="/topics">Topics</button>
       <button mat-button routerLink="/account">Mon compte</button>
-      <button mat-button (click)="logout()">Déconnexion</button>
+      <button  (click)="logout()">Déconnexion</button>
     </ng-container>
   </mat-toolbar>
 </header>

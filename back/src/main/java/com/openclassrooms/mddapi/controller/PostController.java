@@ -26,9 +26,10 @@ public class PostController {
     private final UserRepository userRepository;
 
     @GetMapping
-    public ResponseEntity<?> getAllPosts(@RequestParam(defaultValue = "desc") String order,@RequestParam List<Long> topicIds) {
-        return ResponseEntity.ok(postService.getAllPostsSorted(order,topicIds));
+    public ResponseEntity<?> getAllPosts(@RequestParam(defaultValue = "desc") String order) {
+        return ResponseEntity.ok(postService.getAllPostsSorted(order));
     }
+    
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getPostById(@PathVariable Long id) {

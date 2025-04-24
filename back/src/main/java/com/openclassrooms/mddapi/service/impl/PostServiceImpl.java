@@ -34,7 +34,8 @@ public class PostServiceImpl implements IPostService {
     private final CommentMapper commentMapper;
 
     @Override
-    public List<PostResponseDTO> getAllPostsSorted(String order, List<Long> topicIds) {
+    public List<PostResponseDTO> getAllPostsSorted(String order) {
+
         List<Post> posts = "asc".equalsIgnoreCase(order)
                 ? postRepository.findAllByOrderByCreatedAtAsc()
                 : postRepository.findAllByOrderByCreatedAtDesc();
