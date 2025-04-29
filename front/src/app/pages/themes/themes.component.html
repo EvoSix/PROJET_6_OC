@@ -1,0 +1,14 @@
+<app-header></app-header>
+<main>
+  <div class="grid-container">
+    <div *ngFor="let topic of topics" class="article-card">
+      <h2>{{ topic.label }}</h2>
+      <p>{{ topic.description }}</p>
+      <div class="button-wrapper">
+        <button [disabled]="topic.subscribed">
+          {{ topic.subscribed ? 'Déjà abonné' : "S'abonner" }}
+        </button>
+      </div>
+    </div>
+  </div>
+</main>

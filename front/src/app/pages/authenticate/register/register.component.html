@@ -1,11 +1,40 @@
-<main> 
-    <nav><a href="/">RETOUR</a></nav>
+<app-header class="desktop-only"></app-header>
+<main class="login-container">
+
+    <nav >
+        <a href="/">
+          <mat-icon>arrow_back</mat-icon>
+        </a>
+      </nav>
+
+      <div class="form-wrapper">
+        <img src="assets/logo_p6.png" alt="Logo" class="mobile-only logo" />
     <h2>Inscription</h2>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="full-width">
  
-        <input type="text" placeholder="Nom d'utilisateur" formControlName="username">
-        <input type="email" placeholder="Email" formControlName="email">
-        <input type="password" placeholder="Mot de passe" formControlName="password">
+
+     
+            <div class="field-group">
+                <label for="username">Email ou nom d'utilisateur</label>
+                <mat-form-field  class="full-width" appearance="outline" >
+             
+                  <input matInput formControlName="username" />
+          
+                </mat-form-field></div>
+
+        <div class="field-group">
+            <label for="email">Email</label>
+            <mat-form-field  class="full-width" appearance="outline" >
+        <input type="email" matInput formControlName="email"></mat-form-field></div>
+
+
+        <div class="field-group">
+            <label for="password">Mot de passe</label>
+            <mat-form-field  class="full-width" appearance="outline" >
+        <input type="password" matInput formControlName="password"></mat-form-field></div>
+
+
         <button type="submit">S'inscrire</button>
     </form>
+</div>
 </main>

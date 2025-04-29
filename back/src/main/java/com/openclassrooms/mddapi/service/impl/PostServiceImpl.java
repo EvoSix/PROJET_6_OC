@@ -14,13 +14,16 @@ import com.openclassrooms.mddapi.repository.CommentRepository;
 import com.openclassrooms.mddapi.repository.PostRepository;
 import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
+import com.openclassrooms.mddapi.service.IAuthService;
 import com.openclassrooms.mddapi.service.IPostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,14 +35,41 @@ public class PostServiceImpl implements IPostService {
     private final UserRepository userRepository;
     private final PostMapper postMapper;
     private final CommentMapper commentMapper;
+    private final IAuthService authService;
 
     @Override
     public List<PostResponseDTO> getAllPostsSorted(String order) {
 
-        List<Post> posts = "asc".equalsIgnoreCase(order)
-                ? postRepository.findAllByOrderByCreatedAtAsc()
-                : postRepository.findAllByOrderByCreatedAtDesc();
-        return postMapper.toDtoList(posts);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmailOrUsername(email)
+                .orElseThrow(() -> new NoSuchElementException("Utilisateur connecté non trouvé"));
+
+
+
+        if (user.getSubscriptions() != null && !user.getSubscriptions().isEmpty()) {
+
+            List<Long> topicIds = user.getSubscriptions().stream()
+                    .map(Topic::getId).collect(Collectors.toList());
+
+
+            List<Post> posts = "asc".equalsIgnoreCase(order)
+                    ? postRepository.findByTopicIdInOrderByCreatedAtAsc(topicIds)
+                    : postRepository.findByTopicIdInOrderByCreatedAtDesc(topicIds);
+
+            return postMapper.toDtoList(posts);
+        } else {
+
+            List<Post> posts = "asc".equalsIgnoreCase(order)
+                    ? postRepository.findAllByOrderByCreatedAtAsc()
+                    : postRepository.findAllByOrderByCreatedAtDesc();
+            return postMapper.toDtoList(posts);
+        }
+
+
+
+
+
+
     }
 
     @Override

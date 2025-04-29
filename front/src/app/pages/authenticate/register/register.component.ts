@@ -7,10 +7,19 @@ import {
 } from '@angular/forms';
 import { RegisterRequest } from 'src/app/interfaces/registerRequest';
 import { AuthService } from 'src/app/services/auth.service';
-
+import { HeaderComponent } from '../../../components/Layout/header/header.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    HeaderComponent,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
@@ -23,21 +32,16 @@ export class RegisterComponent {
     private authService: AuthService
   ) {
     this.registerForm = this.formRegister.group({
-      username: [
-        '',
-        Validators.required
-        
-      ],
+      username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required,Validators.minLength(8)]
-     ],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
   onSubmit() {
     this.isSubmitted = true;
     if (this.registerForm.invalid) {
       console.log(this.registerForm.value);
-    
+
       return;
     }
 

@@ -14,7 +14,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { HeaderComponent } from "../../../components/Layout/header/header.component";
+import { HeaderComponent } from '../../../components/Layout/header/header.component';
+import { MatIconModule } from '@angular/material/icon';
+
 @Component({
   selector: 'app-login',
   imports: [
@@ -25,8 +27,9 @@ import { HeaderComponent } from "../../../components/Layout/header/header.compon
     MatButtonModule,
     MatCardModule,
     MatSnackBarModule,
-    HeaderComponent
-],
+    MatIconModule,
+    HeaderComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -66,8 +69,7 @@ export class LoginComponent {
         localStorage.setItem('token', response.token ?? '');
         this.authService.setLoggedIn(response.token ?? '');
         this.snackbar.open(response.message, 'Fermer', { duration: 3000 });
-     this.router.navigateByUrl('/articles');
-  
+        this.router.navigateByUrl('/articles');
       },
       error: (err) => {
         this.loading = false;

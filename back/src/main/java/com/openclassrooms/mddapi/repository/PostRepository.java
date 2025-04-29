@@ -10,4 +10,7 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByOrderByCreatedAtDesc();
     List<Post> findAllByOrderByCreatedAtAsc();
+    List<Post> findByTopicIdInOrderByCreatedAtAsc(List<Long> topicIds);
+
+    List<Post> findByTopicIdInOrderByCreatedAtDesc(List<Long> topicIds);
 }

@@ -3,7 +3,7 @@
   <img src="/assets/logo_p6.png" alt="Logo" height="80px">
     <ng-container *ngIf="isLoggedIn$ | async">
       <button mat-button routerLink="/articles">Articles</button>
-      <button mat-button routerLink="/topics">Topics</button>
+      <button mat-button routerLink="/themes">Topics</button>
       <button mat-button routerLink="/account">Mon compte</button>
       <button  (click)="logout()">Déconnexion</button>
     </ng-container>

@@ -35,6 +35,7 @@ public class TopicServiceImpl implements ITopicService {
 
         for (Topic topic : allTopics) {
             TopicResponseDTO dto = topicMapper.toDto(topic);
+
             dto.setSubscribed(subscriptions.contains(topic));
             result.add(dto);
         }

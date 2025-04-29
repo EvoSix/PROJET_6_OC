@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface TopicMapper {
 
-    @Mapping(target = "subscribed", ignore = true)
+
     TopicResponseDTO toDto(Topic topic);
 
     List<TopicResponseDTO> toDtoList(List<Topic> topics);

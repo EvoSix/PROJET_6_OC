@@ -11,5 +11,5 @@ public class TopicResponseDTO {
     private Long id;
     private String label;
     private String description;
-    private boolean subscribed;
+    private boolean isSubscribed;
 }
