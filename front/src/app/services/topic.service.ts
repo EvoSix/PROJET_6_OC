@@ -13,4 +13,7 @@ export class TopicService {
   getTopics(): Observable<Topic[]> {
     return this.http.get<Topic[]>(`${this.apiUrl}topics`);
   }
+  subscribeToTopic(topicId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}topics/${topicId}/subscribe`, {}); // Envoie un body vide
+  }
 }

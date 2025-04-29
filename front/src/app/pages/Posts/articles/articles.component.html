@@ -11,7 +11,8 @@
     <button (click)="changeOrder()">Trier : {{ order === 'asc' ? 'Ascendant' : 'Descendant' }}</button>
   </div>
 <section class="grid-container">
-    <article class="article-card" *ngFor="let post of posts">
+    <article class="article-card" *ngFor="let post of posts" [routerLink]="['/post', post.id]"
+    style="cursor: pointer;">
       <header>
         <h3 class="title">{{ post.title }}</h3>
         <p class="meta">

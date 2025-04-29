@@ -25,4 +25,15 @@ export class ThemesComponent {
       this.topics = data;
     });
   }
+
+  subscribeTopic(topic: Topic): void {
+    this.topicService.subscribeToTopic(topic.id).subscribe({
+      next: () => {
+        topic.subscribed = true;
+      },
+      error: (err) => {
+        console.error('Erreur lors de l’abonnement :', err);
+      },
+    });
+  }
 }

@@ -5,6 +5,7 @@ import { LoginComponent } from './pages/authenticate/login/login.component';
 import { ArticlesComponent } from './pages/Posts/articles/articles.component';
 import { authGuard } from './guards/auth.guard';
 import { ThemesComponent } from './pages/themes/themes.component';
+import { PostComponent } from './pages/Posts/post/post.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -12,4 +13,9 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'articles', canActivate: [authGuard], component: ArticlesComponent },
   { path: 'themes', canActivate: [authGuard], component: ThemesComponent },
+  {
+    path: 'post/:id',
+    canActivate: [authGuard],
+    component: PostComponent,
+  },
 ];

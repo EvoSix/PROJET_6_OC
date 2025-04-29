@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from "../../../components/Layout/header/header.component";
+import { HeaderComponent } from '../../../components/Layout/header/header.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,13 +9,13 @@ import { MatFormFieldModule } from '@angular/material/module.d-vndDeG-q';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PostService } from 'src/app/services/post.service';
 import { Post } from 'src/app/interfaces/Posts';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-articles',
-  imports: [CommonModule,
-    HeaderComponent],
+  imports: [CommonModule, HeaderComponent, RouterModule],
   templateUrl: './articles.component.html',
-  styleUrl: './articles.component.scss'
+  styleUrl: './articles.component.scss',
 })
 export class ArticlesComponent {
   order: 'asc' | 'desc' = 'desc';
@@ -37,7 +37,7 @@ export class ArticlesComponent {
       error: (err) => {
         console.error('Erreur lors du chargement des articles', err);
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -45,5 +45,4 @@ export class ArticlesComponent {
     this.order = this.order === 'asc' ? 'desc' : 'asc';
     this.loadPosts();
   }
-
 }

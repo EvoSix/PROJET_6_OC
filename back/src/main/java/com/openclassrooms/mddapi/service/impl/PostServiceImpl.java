@@ -4,6 +4,7 @@ import com.openclassrooms.mddapi.dto.request.CreateCommentRequest;
 import com.openclassrooms.mddapi.dto.request.CreatePostRequest;
 import com.openclassrooms.mddapi.dto.response.CommentResponseDTO;
 import com.openclassrooms.mddapi.dto.response.PostResponseDTO;
+import com.openclassrooms.mddapi.dto.response.PostWithCommentsResponseDTO;
 import com.openclassrooms.mddapi.mapper.CommentMapper;
 import com.openclassrooms.mddapi.mapper.PostMapper;
 import com.openclassrooms.mddapi.model.Comment;
@@ -79,6 +80,22 @@ public class PostServiceImpl implements IPostService {
         );
     }
 
+
+    @Override
+    public PostWithCommentsResponseDTO getPostWithCommentsById(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Post non trouvé"));
+
+        PostResponseDTO postDto = postMapper.toDto(post);
+
+        List<CommentResponseDTO> comments = commentRepository.findByPostId(post.getId())
+                .stream()
+                .map(commentMapper::toDto)
+                .collect(Collectors.toList());
+
+        return new PostWithCommentsResponseDTO(postDto, comments);
+    }
+
     @Override
     public PostResponseDTO createPost(CreatePostRequest request, Long authorId) {
         User author = userRepository.findById(authorId)
@@ -114,4 +131,5 @@ public class PostServiceImpl implements IPostService {
 
         return commentMapper.toDto(commentRepository.save(comment));
     }
+
 }

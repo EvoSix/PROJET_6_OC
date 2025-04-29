@@ -34,7 +34,7 @@ public class PostController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getPostById(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(postService.getPostById(id));
+            return ResponseEntity.ok(postService.getPostWithCommentsById(id));
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

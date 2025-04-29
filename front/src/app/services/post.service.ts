@@ -3,15 +3,21 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Post } from '../interfaces/Posts';
-
-
+interface PostWithCommentsResponseDTO {
+  post: Post;
+  comments: Comment[];
+}
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PostService {
   private http = inject(HttpClient);
   private apiUrl = environment.baseUrl;
-
+  getPostWithComments(id: string) {
+    return this.http.get<PostWithCommentsResponseDTO>(
+      `${this.apiUrl}posts/${id}`
+    );
+  }
   getAllPosts(order: 'asc' | 'desc' = 'desc'): Observable<Post[]> {
     return this.http.get<Post[]>(`${this.apiUrl}posts?order=${order}`);
   }
