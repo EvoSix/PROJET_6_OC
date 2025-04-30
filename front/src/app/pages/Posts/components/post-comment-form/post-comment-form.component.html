@@ -1,0 +1,11 @@
+<section style="background-color: white;">
+    <textarea [(ngModel)]="commentContent"
+              placeholder="Écrire un commentaire..."
+              rows="4"
+              style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;"></textarea>
+  
+    <button (click)="onSubmit()"
+          >
+      Envoyer
+    </button>
+  </section>

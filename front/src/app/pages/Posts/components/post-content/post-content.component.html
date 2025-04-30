@@ -1,0 +1,22 @@
+<section>
+    <!-- Titre + Flèche -->
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <a [routerLink]="['/articles']" style="text-decoration: none; font-size: 24px;">←</a>
+      <h2>{{ post?.title }}</h2>
+    </div>
+  
+    <!-- Date, Auteur, Topic -->
+    <div style="display: flex; align-items: center; gap: 16px; margin-top: 8px; color: gray; font-size: 14px;">
+      <span>{{ post?.createdAt | date: 'dd/MM/yyyy' }}</span>
+      <span>— {{ post?.authorUsername }}</span>
+      <span>— {{ post?.topicLabel }}</span>
+    </div>
+  
+    <!-- Contenu de l'article -->
+    <div style="margin-top: 16px;">
+      <p>{{ post?.content }}</p>
+    </div>
+  
+    <!-- Séparateur -->
+    <div style="height: 2px; background-color: #ccc; margin: 24px 0;"></div>
+  </section>

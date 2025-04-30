@@ -3,9 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Post } from '../interfaces/Posts';
+import { CommentArticle } from '../interfaces/Comment';
 interface PostWithCommentsResponseDTO {
   post: Post;
-  comments: Comment[];
+  comments: CommentArticle[];
 }
 @Injectable({
   providedIn: 'root',
@@ -20,5 +21,9 @@ export class PostService {
   }
   getAllPosts(order: 'asc' | 'desc' = 'desc'): Observable<Post[]> {
     return this.http.get<Post[]>(`${this.apiUrl}posts?order=${order}`);
+  }
+
+  commentOnPost(postId: string, request: { content: string }) {
+    return this.http.post(`${this.apiUrl}posts/${postId}/comments`, request);
   }
 }

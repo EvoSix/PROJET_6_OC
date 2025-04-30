@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -34,7 +35,7 @@ import java.time.LocalDateTime;
         @ManyToOne
         @JoinColumn(name = "topic_id")
         private Topic topic;
-
+    @CreatedDate
         @Column
         private LocalDateTime createdAt;
 

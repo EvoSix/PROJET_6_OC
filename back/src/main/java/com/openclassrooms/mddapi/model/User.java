@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,10 +31,10 @@ public class User {
 
     @Column(nullable = false)
     private String password;
-
+    @CreatedDate
     @Column
     private LocalDateTime createdAt;
-
+@LastModifiedDate
     @Column
     private LocalDateTime updatedAt;
 

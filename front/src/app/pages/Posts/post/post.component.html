@@ -1,4 +1,9 @@
-<main>
-    <h1>Article sélectionné</h1>
-    <p>ID de l'article : {{ articleId }}</p>
-  </main>
+<app-header></app-header>
+<main *ngIf="!loading">
+<div>
+  <app-post-content [post]="post!"></app-post-content>
+  <app-post-comments [comments]="comments"></app-post-comments></div>
+  <app-post-comment-form (submitComment)="submitNewComment($event)"  class="footing"></app-post-comment-form>
+</main>
+
+<div *ngIf="loading" style="text-align: center; margin-top: 40px;">Chargement...</div>
