@@ -1,42 +1,35 @@
-<header>
-<mat-toolbar class="desktop-only" >
-  <img src="/assets/logo_p6.png" alt="Logo" height="80px">
+<header class="main-header">
+  <mat-toolbar class="toolbar">
+    <img src="/assets/logo_p6.png" alt="Logo" height="40px" />
 
+    <div class="spacer"></div>
 
-    <ng-container *ngIf="isLoggedIn$ | async" >
-      <button mat-button routerLink="/articles">Articles</button>
-      <button mat-button routerLink="/themes">Topics</button>
-      <button mat-button routerLink="/account">Mon compte</button>
-      <button  (click)="logout()">Déconnexion</button>
+    <ng-container *ngIf="isLoggedIn$ | async">
+      <nav class="desktop-only">
+        <button class="nav-logout" (click)="logout()">Déconnexion</button>
+        <a  routerLink="/articles" routerLinkActive="active">Articles</a>
+        <a  routerLink="/themes" routerLinkActive="active">Topics</a>
+        <a  routerLink="/account" class="avatar"><img src="/assets/user.png" alt="Profil" /></a> 
+  
+      </nav>
     </ng-container>
 
-
-  
-
+    <button mat-icon-button class="mobile-only" (click)="toggleMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
   </mat-toolbar>
+    <div class="drawer-overlay" *ngIf="menuOpen" (click)="toggleMenu()"></div>
+  <div class="mobile-drawer" [class.open]="menuOpen">
 
-
-  <mat-toolbar class="mobile-only" >
-    <img src="/assets/logo_p6.png" alt="Logo" height="80px">
-  
-  
+    <button mat-icon-button class="close-btn" (click)="toggleMenu()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <nav>
+      <a  class="nav-logout" (click)="logout()">Déconnexion</a>
+      <a  routerLink="/articles">Articles</a>
+      <a  routerLink="/themes">Topics</a>
+      <a  routerLink="/account" class="avatar"> <img src="/assets/user.png" alt="Profil"  /></a>
    
-  
-  
-      <button mat-icon-button  (click)="drawer.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-  
-      <mat-drawer-container class=" drawer-container" autosize>
-        <mat-drawer #drawer mode="side" position="end">
-          <ng-container *ngIf="isLoggedIn$ | async">
-            <button mat-button routerLink="/articles" (click)="drawer.close()">Articles</button>
-            <button mat-button routerLink="/themes" (click)="drawer.close()">Topics</button>
-            <button mat-button routerLink="/account" (click)="drawer.close()">Mon compte</button>
-            <button mat-button (click)="logout(); drawer.close()">Déconnexion</button>
-          </ng-container>
-        </mat-drawer>
-      </mat-drawer-container>
-  
-    </mat-toolbar>
+    </nav>
+  </div>
 </header>

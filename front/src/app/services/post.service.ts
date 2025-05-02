@@ -27,7 +27,7 @@ export class PostService {
   commentOnPost(postId: string, request: { content: string }) {
     return this.http.post(`${this.apiUrl}posts/${postId}/comments`, request);
   }
-  createPost(postData: PostRequest) {
-    return this.http.post(`${this.apiUrl}posts`, postData);
+  createPost(postData: PostRequest): Observable<Post> {
+    return this.http.post<Post>(`${this.apiUrl}posts`, postData);
   }
 }

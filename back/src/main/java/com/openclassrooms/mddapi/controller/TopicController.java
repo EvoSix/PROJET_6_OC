@@ -49,7 +49,7 @@ public class TopicController {
             User user=    userService.getUserByMail(email);
 
             topicService.subscribeToTopic(topicId, user.getId());
-            return ResponseEntity.ok("Abonnement effectué.");
+            return ResponseEntity.ok(new MessageResponseDTO("Abonnement effectué."));
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
