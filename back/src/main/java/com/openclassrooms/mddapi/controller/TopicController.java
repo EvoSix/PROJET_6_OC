@@ -5,6 +5,7 @@ import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.service.ITopicService;
 import com.openclassrooms.mddapi.service.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +51,7 @@ public class TopicController {
 
             topicService.subscribeToTopic(topicId, user.getId());
             return ResponseEntity.ok(new MessageResponseDTO("Abonnement effectué."));
+            ///ResponseEntity.status(HttpStatus.)
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
