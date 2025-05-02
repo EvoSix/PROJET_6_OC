@@ -40,7 +40,7 @@ export class RegisterComponent {
   onSubmit() {
     this.isSubmitted = true;
     if (this.registerForm.invalid) {
-      console.log(this.registerForm.value);
+   
 
       return;
     }

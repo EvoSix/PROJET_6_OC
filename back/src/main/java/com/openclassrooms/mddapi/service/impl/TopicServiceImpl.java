@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +42,12 @@ public class TopicServiceImpl implements ITopicService {
         }
 
         return result;
+    }
+
+    public List<TopicResponseDTO> getAllTopics() {
+
+
+        return topicRepository.findAll().stream().map(topicMapper::toDto).collect(Collectors.toList());
     }
 
     @Override

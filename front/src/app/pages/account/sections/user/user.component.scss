@@ -1,0 +1,11 @@
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.mat-form-field-appearance-outline .mat-form-field-outline {
+    border-radius: 4px !important;
+    border-color: #2196f3 !important; /* bleu */
+    background: #fff !important;
+  }
+  section{margin: auto; padding-left:20%;padding-right:20%;}

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Post } from 'src/app/interfaces/Posts';
 import { PostService } from 'src/app/services/post.service';
 import { CommentArticle } from 'src/app/interfaces/Comment';
@@ -12,7 +12,7 @@ import { HeaderComponent } from "../../../components/Layout/header/header.compon
   selector: 'app-post',
   imports: [
     CommonModule,
-    RouterLink,
+    
     PostCommentsComponent,
     PostContentComponent,
     PostCommentFormComponent,

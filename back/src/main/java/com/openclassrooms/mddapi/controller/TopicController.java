@@ -1,8 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 
-import com.openclassrooms.mddapi.dto.request.TopicSubscriptionRequest;
+import com.openclassrooms.mddapi.dto.response.MessageResponseDTO;
 import com.openclassrooms.mddapi.model.User;
-import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.service.ITopicService;
 import com.openclassrooms.mddapi.service.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ public class TopicController {
 
 
     @GetMapping
-    public ResponseEntity<?> getAllTopics() {
+    public ResponseEntity<?> getTopicSubscribe() {
         try {
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -30,6 +29,14 @@ public class TopicController {
 
 
             return ResponseEntity.ok(topicService.getAllTopicsWithUserSubscriptions(user.getId()));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllTopics() {
+        try {
+            return ResponseEntity.ok(topicService.getAllTopics());
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(404).body(e.getMessage());
         }
@@ -55,7 +62,7 @@ public class TopicController {
             User user=    userService.getUserByMail(email);
 
             topicService.unsubscribeFromTopic(topicId, user.getId());
-            return ResponseEntity.ok("Désabonnement effectué.");
+            return ResponseEntity.ok(new MessageResponseDTO("Désabonnment Fait"));
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }

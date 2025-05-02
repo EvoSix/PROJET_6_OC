@@ -27,4 +27,10 @@
       font-size: 14px;
       cursor: pointer;
     }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 10px; 
+      align-items: stretch; 
+    }
   }

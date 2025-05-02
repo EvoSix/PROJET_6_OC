@@ -1,0 +1,14 @@
+<section>
+    <div *ngIf="topics.length === 0">
+        <p>Pas d’abonnement</p>
+      </div>
+    <div *ngIf="topics.length > 0" class="grid-container">
+        <div *ngFor="let topic of topics" class="article-card">
+          <h2>{{ topic.label }}</h2>
+          <p>{{ topic.description }}</p>
+          <div class="button-wrapper">
+            <button (click)="onUnsubscribe(topic)">Désabonnement</button>
+          </div>
+        </div>
+      </div>
+</section>

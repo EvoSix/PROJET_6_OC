@@ -8,4 +8,5 @@ public interface ITopicService {
     List<TopicResponseDTO> getAllTopicsWithUserSubscriptions(Long userId);
     void subscribeToTopic(Long topicId, Long userId);
     void unsubscribeFromTopic(Long topicId, Long userId);
+    List<TopicResponseDTO>  getAllTopics ();
 }

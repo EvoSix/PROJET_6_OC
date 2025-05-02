@@ -6,6 +6,8 @@ import { ArticlesComponent } from './pages/Posts/articles/articles.component';
 import { authGuard } from './guards/auth.guard';
 import { ThemesComponent } from './pages/themes/themes.component';
 import { PostComponent } from './pages/Posts/post/post.component';
+import { CreateComponent } from './pages/Posts/create/create.component';
+import { AccountComponent } from './pages/account/account.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,4 +20,6 @@ export const routes: Routes = [
     canActivate: [authGuard],
     component: PostComponent,
   },
+  { path: 'articles/create',  canActivate: [authGuard], component: CreateComponent },
+  { path: 'account',  canActivate: [authGuard], component: AccountComponent },
 ];

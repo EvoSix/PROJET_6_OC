@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Post } from '../interfaces/Posts';
 import { CommentArticle } from '../interfaces/Comment';
+import { PostRequest } from '../interfaces/postRequest';
 interface PostWithCommentsResponseDTO {
   post: Post;
   comments: CommentArticle[];
@@ -25,5 +26,8 @@ export class PostService {
 
   commentOnPost(postId: string, request: { content: string }) {
     return this.http.post(`${this.apiUrl}posts/${postId}/comments`, request);
+  }
+  createPost(postData: PostRequest) {
+    return this.http.post(`${this.apiUrl}posts`, postData);
   }
 }

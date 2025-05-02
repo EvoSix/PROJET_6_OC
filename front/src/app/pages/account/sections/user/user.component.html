@@ -1,0 +1,17 @@
+<section>
+    <form (ngSubmit)="onSubmit()">
+        <label>Nom d'utilisateur</label>
+        <mat-form-field appearance="outline" class="full-width">
+        <input matInput type="text" [(ngModel)]="form.username" name="username" required>
+        </mat-form-field>
+        <label>Email</label>
+        <mat-form-field appearance="outline" class="full-width">
+        <input matInput type="email" [(ngModel)]="form.email" name="email" required>
+      </mat-form-field> 
+        <label>Mot de passe (laisser vide pour ne pas changer)</label>
+        <mat-form-field appearance="outline" class="full-width">
+        <input matInput type="password" [(ngModel)]="form.password" name="password">
+      </mat-form-field>
+        <button  type="submit">Mettre à jour</button>
+      </form>
+    </section>

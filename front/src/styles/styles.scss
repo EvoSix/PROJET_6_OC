@@ -74,9 +74,11 @@ mat-form-field {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
-  
+    max-width: 100%;
+    box-sizing: border-box;
     @media (max-width: 768px) {
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
     }
   }
   
@@ -84,5 +86,8 @@ mat-form-field {
     background-color: #f0f0f0;
     padding: 16px;
     border-radius: 8px;
+    
+   
+  
   }
   

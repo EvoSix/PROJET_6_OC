@@ -1,0 +1,40 @@
+.mat-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+  
+  .spacer {
+    flex: 1;
+  }
+  
+  .desktop-only {
+    display: flex;
+  }
+  
+  .mobile-only {
+    display: none;
+  }
+  
+  .drawer-container {
+  
+    top: 64px;
+    right: 0;
+    width: 100%;
+    height: calc(100vh - 64px);
+    z-index: 1000;
+  
+  }
+  
+  // Responsive rules
+  @media (max-width: 768px) {
+    .desktop-only {
+      display: none !important;
+      visibility: hidden;
+    }
+  
+    .mobile-only {
+      display: flex;
+    }
+  }

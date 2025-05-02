@@ -1,0 +1,12 @@
+<app-header ></app-header>
+<main>
+    <app-user-section
+  [user]="userData"
+  (save)="onUpdateUser($event)">
+</app-user-section>
+<div style="height: 2px; background-color: #ccc; margin: 24px 0;"></div>
+<app-subscriptions
+  [topics]="subscribedTopics"
+  (unsubscribe)="onUnsubscribe($event)">
+</app-subscriptions>
+</main>

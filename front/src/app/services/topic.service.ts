@@ -16,4 +16,11 @@ export class TopicService {
   subscribeToTopic(topicId: number): Observable<any> {
     return this.http.post(`${this.apiUrl}topics/${topicId}/subscribe`, {}); // Envoie un body vide
   }
+  getAllTopics(): Observable<Topic[]> {
+    return this.http.get<Topic[]>(`${this.apiUrl}topics/all`);
+  }
+  unsubscribeFromTopic(topicId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}topics/${topicId}/unsubscribe`, {});
+  }
+
 }

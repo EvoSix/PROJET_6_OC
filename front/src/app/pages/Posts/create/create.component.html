@@ -1,0 +1,26 @@
+<app-header></app-header>
+<main>
+    <h2>Créer un nouvel article</h2>
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column; gap: 16px; max-width: 600px">
+    <mat-form-field appearance="outline" class="full-width">
+
+      <input matInput placeholder="Titre de l'article" formControlName="title" />
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline" class="full-width">
+
+      <textarea matInput placeholder="Contenu de l'article" rows="6" formControlName="content"></textarea>
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline" class="full-width">
+
+      <mat-select placeholder="Choisissez un sujet" formControlName="topicId">
+        <mat-option *ngFor="let topic of topics" [value]="topic.id">
+          {{ topic.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <button  type="submit" [disabled]="postForm.invalid">Publier</button>
+  </form>
+</main>
