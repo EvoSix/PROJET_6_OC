@@ -26,29 +26,25 @@ public class UserController {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     @GetMapping("/me")
-    public ResponseEntity<?> getUser() {
-        try {
+    public ResponseEntity<UserResponseDTO> getUser() {
+
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
 
 
             UserResponseDTO dto = userMapper.toDto(userService.getUserByMail(username));
             return ResponseEntity.ok(dto);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+
     }
 
     @PutMapping("/me")
-    public ResponseEntity<?> updateUser(@RequestBody UpdateUserRequest request) {
-        try {
+    public ResponseEntity<UserResponseDTO> updateUser(@RequestBody UpdateUserRequest request) {
+
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
 User user = userService.getUserByMailorUserName(   username);
             User updated = userService.updateUser(user.getId(), request);
             UserResponseDTO dto = userMapper.toDto(updated);
-            return ResponseEntity.ok(dto);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(dto);
+
     }}

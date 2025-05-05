@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.service.impl;
 
 import com.openclassrooms.mddapi.dto.request.UpdateUserRequest;
+import com.openclassrooms.mddapi.exception.UserNotFoundException;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.service.IUserService;
@@ -22,17 +23,17 @@ public class UserServiceImpl implements IUserService {
     public User getUserByMail(String email) {
 
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+                .orElseThrow(() -> new UserNotFoundException("Utilisateur non trouvé"));
     }
     public User getUserByMailorUserName(String userName) {
     return userRepository.findByEmailOrUsername(userName)
-                .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+                .orElseThrow(() -> new UserNotFoundException("Utilisateur non trouvé"));
     }
 
     @Override
     public User updateUser(Long id, UpdateUserRequest request) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+                .orElseThrow(() -> new UserNotFoundException("Utilisateur non trouvé"));
 
         user.setEmail(request.getEmail());
         user.setUsername(request.getUsername());

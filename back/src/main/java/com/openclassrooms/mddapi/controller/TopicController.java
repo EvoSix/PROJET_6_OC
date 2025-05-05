@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.response.MessageResponseDTO;
+import com.openclassrooms.mddapi.dto.response.TopicResponseDTO;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.service.ITopicService;
 import com.openclassrooms.mddapi.service.IUserService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -33,36 +35,32 @@ public class TopicController {
 
     }
     @GetMapping("/all")
-    public ResponseEntity<?> getAllTopics() {
+    public ResponseEntity<List<TopicResponseDTO>> getAllTopics() {
 
             return ResponseEntity.ok(topicService.getAllTopics());
 
     }
 
     @PostMapping("/{topicId}/subscribe")
-    public ResponseEntity<?> subscribe(@PathVariable Long topicId) {
-        try {
+    public ResponseEntity<MessageResponseDTO> subscribe(@PathVariable Long topicId) {
+
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
 
             topicService.subscribeToTopic(topicId, email);
-            return ResponseEntity.ok(new MessageResponseDTO("Abonnement effectué."));
-            ///ResponseEntity.status(HttpStatus.)
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
+            return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponseDTO("Abonnement effectué."));
+
+
     }
 
     @DeleteMapping("/{topicId}/unsubscribe")
-    public ResponseEntity<?> unsubscribe(@PathVariable Long topicId) {
-        try {
+    public ResponseEntity<MessageResponseDTO> unsubscribe(@PathVariable Long topicId) {
+
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
 
             topicService.unsubscribeFromTopic(topicId, email);
-            return ResponseEntity.ok(new MessageResponseDTO("Désabonnment Fait"));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new MessageResponseDTO("Désabonnment Fait"));
+
     }
 }

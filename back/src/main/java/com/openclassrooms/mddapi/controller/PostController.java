@@ -2,6 +2,9 @@ package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.request.CreateCommentRequest;
 import com.openclassrooms.mddapi.dto.request.CreatePostRequest;
+import com.openclassrooms.mddapi.dto.response.CommentResponseDTO;
+import com.openclassrooms.mddapi.dto.response.PostResponseDTO;
+import com.openclassrooms.mddapi.dto.response.PostWithCommentsResponseDTO;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.service.IPostService;
@@ -26,20 +29,20 @@ public class PostController {
     private final UserRepository userRepository;
 
     @GetMapping
-    public ResponseEntity<?> getAllPosts(@RequestParam(defaultValue = "desc") String order) {
+    public ResponseEntity<List<PostResponseDTO>> getAllPosts(@RequestParam(defaultValue = "desc") String order) {
         return ResponseEntity.ok(postService.getAllPostsSorted(order));
     }
     
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPostById(@PathVariable Long id) {
+    public ResponseEntity<PostWithCommentsResponseDTO> getPostById(@PathVariable Long id) {
 
             return ResponseEntity.ok(postService.getPostWithCommentsById(id));
 
     }
 
     @PostMapping
-    public ResponseEntity<?> createPost(@RequestBody CreatePostRequest request) {
+    public ResponseEntity<PostResponseDTO> createPost(@RequestBody CreatePostRequest request) {
 
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -50,7 +53,7 @@ public class PostController {
     }
 
     @PostMapping("/{id}/comments")
-    public ResponseEntity<?> commentOnPost(@PathVariable Long id, @RequestBody CreateCommentRequest request) {
+    public ResponseEntity<CommentResponseDTO> commentOnPost(@PathVariable Long id, @RequestBody CreateCommentRequest request) {
 
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
 

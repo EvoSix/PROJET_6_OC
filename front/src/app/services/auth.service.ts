@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { RegisterRequest } from '../interfaces/registerRequest';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 import { LoginRequest } from '../interfaces/LoginRequest';
 
 @Injectable({
@@ -14,6 +14,19 @@ export class AuthService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
   constructor() {}
+
+  validateToken(): Observable<boolean> {
+    return this.http.get(`${this.apiUrl}users/me`).pipe(
+      map(() => {
+        this.isLoggedInSubject.next(true);
+        return true;
+      }),
+      catchError(() => {
+        this.logout(); // on nettoie le token
+        return of(false);
+      })
+    );
+  }
 
   private hasToken(): boolean {
     return !!localStorage.getItem('token');

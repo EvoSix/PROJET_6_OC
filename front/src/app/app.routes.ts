@@ -8,11 +8,16 @@ import { ThemesComponent } from './pages/themes/themes.component';
 import { PostComponent } from './pages/Posts/post/post.component';
 import { CreateComponent } from './pages/Posts/create/create.component';
 import { AccountComponent } from './pages/account/account.component';
+import { loggedGuard } from './guards/logged.guard';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
+  { path: '', canActivate: [loggedGuard], component: HomeComponent },
+  {
+    path: 'register',
+    canActivate: [loggedGuard],
+    component: RegisterComponent,
+  },
+  { path: 'login', canActivate: [loggedGuard], component: LoginComponent },
   { path: 'articles', canActivate: [authGuard], component: ArticlesComponent },
   { path: 'themes', canActivate: [authGuard], component: ThemesComponent },
   {
@@ -20,6 +25,10 @@ export const routes: Routes = [
     canActivate: [authGuard],
     component: PostComponent,
   },
-  { path: 'articles/create',  canActivate: [authGuard], component: CreateComponent },
-  { path: 'account',  canActivate: [authGuard], component: AccountComponent },
+  {
+    path: 'articles/create',
+    canActivate: [authGuard],
+    component: CreateComponent,
+  },
+  { path: 'account', canActivate: [authGuard], component: AccountComponent },
 ];
