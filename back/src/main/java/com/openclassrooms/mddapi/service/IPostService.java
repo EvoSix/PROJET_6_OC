@@ -13,7 +13,7 @@ import java.util.List;
 public interface IPostService {
     List<PostResponseDTO> getAllPostsSorted(String order);
     PostResponseDTO getPostById(Long id);
-    PostResponseDTO createPost(CreatePostRequest request, Long authorId);
-    CommentResponseDTO commentOnPost(Long postId, CreateCommentRequest request, Long authorId);
+    PostResponseDTO createPost(CreatePostRequest request, String email);
+    CommentResponseDTO commentOnPost(Long postId, CreateCommentRequest request, String email);
     PostWithCommentsResponseDTO getPostWithCommentsById(Long id);
 }

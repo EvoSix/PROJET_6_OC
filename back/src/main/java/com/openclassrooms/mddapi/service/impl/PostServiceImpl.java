@@ -5,6 +5,9 @@ import com.openclassrooms.mddapi.dto.request.CreatePostRequest;
 import com.openclassrooms.mddapi.dto.response.CommentResponseDTO;
 import com.openclassrooms.mddapi.dto.response.PostResponseDTO;
 import com.openclassrooms.mddapi.dto.response.PostWithCommentsResponseDTO;
+import com.openclassrooms.mddapi.exception.PostNotFoundException;
+import com.openclassrooms.mddapi.exception.TopicNotFoundException;
+import com.openclassrooms.mddapi.exception.UserNotFoundException;
 import com.openclassrooms.mddapi.mapper.CommentMapper;
 import com.openclassrooms.mddapi.mapper.PostMapper;
 import com.openclassrooms.mddapi.model.Comment;
@@ -76,7 +79,7 @@ public class PostServiceImpl implements IPostService {
     @Override
     public PostResponseDTO getPostById(Long id) {
         return postMapper.toDto(
-                postRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Post non trouvé"))
+                postRepository.findById(id).orElseThrow(() -> new PostNotFoundException("Post non trouvé"))
         );
     }
 
@@ -84,7 +87,7 @@ public class PostServiceImpl implements IPostService {
     @Override
     public PostWithCommentsResponseDTO getPostWithCommentsById(Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Post non trouvé"));
+                .orElseThrow(() -> new PostNotFoundException("Post non trouvé"));
 
         PostResponseDTO postDto = postMapper.toDto(post);
 
@@ -97,12 +100,12 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public PostResponseDTO createPost(CreatePostRequest request, Long authorId) {
-        User author = userRepository.findById(authorId)
-                .orElseThrow(() -> new NoSuchElementException("Auteur non trouvé"));
+    public PostResponseDTO createPost(CreatePostRequest request, String email) {
+        User author = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("Auteur non trouvé"));
 
         Topic topic = topicRepository.findById(request.getTopicId())
-                .orElseThrow(() -> new NoSuchElementException("Sujet non trouvé"));
+                .orElseThrow(() -> new TopicNotFoundException("Sujet non trouvé"));
 
         Post post = new Post();
         post.setTitle(request.getTitle());
@@ -115,12 +118,12 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public CommentResponseDTO commentOnPost(Long postId, CreateCommentRequest request, Long authorId) {
+    public CommentResponseDTO commentOnPost(Long postId, CreateCommentRequest request, String email) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new NoSuchElementException("Post non trouvé"));
+                .orElseThrow(() -> new PostNotFoundException("Post non trouvé"));
 
-        User author = userRepository.findById(authorId)
-                .orElseThrow(() -> new NoSuchElementException("Auteur non trouvé"));
+        User author = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("Auteur non trouvé"));
 
         Comment comment = new Comment();
         comment.setContent(request.getContent());

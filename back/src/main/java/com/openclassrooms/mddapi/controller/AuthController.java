@@ -26,23 +26,17 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody RegisterRequest request) {
-        try {
+
             authService.register(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(Collections.singletonMap("message", "User registered successfully"));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(Collections.singletonMap("message",e.getMessage()));
-        }
+
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginRequest request) {
-        try {
+
             String token = authService.login(request);
             return ResponseEntity.ok(new AuthResponseDTO(token, "Connexion réussie"));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new AuthResponseDTO("", e.getMessage()));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponseDTO("", e.getMessage()));
-        }
+
     }
 }

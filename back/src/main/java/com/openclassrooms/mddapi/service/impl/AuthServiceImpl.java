@@ -2,6 +2,9 @@ package com.openclassrooms.mddapi.service.impl;
 
 import com.openclassrooms.mddapi.dto.request.LoginRequest;
 import com.openclassrooms.mddapi.dto.request.RegisterRequest;
+import com.openclassrooms.mddapi.exception.EmailAlreadyExistsException;
+import com.openclassrooms.mddapi.exception.InvalidPasswordException;
+import com.openclassrooms.mddapi.exception.UserNotFoundException;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.security.services.JwtService;
@@ -31,7 +34,7 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public void register(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new EmailAlreadyExistsException("Email already exists");
         }
 
         User user = new User();
@@ -45,11 +48,11 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public String login(LoginRequest request) {
         User user = userRepository.findByEmailOrUsername(request.getEmail())
-                .orElseThrow(() -> new NoSuchElementException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
 
-            throw new IllegalArgumentException("Wrong password");
+            throw new InvalidPasswordException("Wrong password");
         }
 
         return jwtService.generateToken(user.getEmail());

@@ -33,38 +33,30 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getPostById(@PathVariable Long id) {
-        try {
+
             return ResponseEntity.ok(postService.getPostWithCommentsById(id));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+
     }
 
     @PostMapping
     public ResponseEntity<?> createPost(@RequestBody CreatePostRequest request) {
-        try {
+
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
-            User user = userRepository.findByEmailOrUsername(email)
-                    .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+
 
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(postService.createPost(request, user.getId()));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+                    .body(postService.createPost(request, email));
+
     }
 
     @PostMapping("/{id}/comments")
     public ResponseEntity<?> commentOnPost(@PathVariable Long id, @RequestBody CreateCommentRequest request) {
-        try {
+    
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
-            User user = userRepository.findByEmailOrUsername(email)
-                    .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+
 
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(postService.commentOnPost(id, request, user.getId()));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+                    .body(postService.commentOnPost(id, request, email));
+
     }
 }
