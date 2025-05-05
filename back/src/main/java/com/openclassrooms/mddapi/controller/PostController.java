@@ -51,7 +51,7 @@ public class PostController {
 
     @PostMapping("/{id}/comments")
     public ResponseEntity<?> commentOnPost(@PathVariable Long id, @RequestBody CreateCommentRequest request) {
-    
+
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
 

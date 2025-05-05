@@ -23,33 +23,29 @@ public class TopicController {
 
     @GetMapping
     public ResponseEntity<?> getTopicSubscribe() {
-        try {
+
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-            User user=    userService.getUserByMail(email);
 
 
-            return ResponseEntity.ok(topicService.getAllTopicsWithUserSubscriptions(user.getId()));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(404).body(e.getMessage());
-        }
+
+            return ResponseEntity.ok(topicService.getAllTopicsWithUserSubscriptions(email));
+
     }
     @GetMapping("/all")
     public ResponseEntity<?> getAllTopics() {
-        try {
+
             return ResponseEntity.ok(topicService.getAllTopics());
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(404).body(e.getMessage());
-        }
+
     }
 
     @PostMapping("/{topicId}/subscribe")
     public ResponseEntity<?> subscribe(@PathVariable Long topicId) {
         try {
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
-            User user=    userService.getUserByMail(email);
 
-            topicService.subscribeToTopic(topicId, user.getId());
+
+            topicService.subscribeToTopic(topicId, email);
             return ResponseEntity.ok(new MessageResponseDTO("Abonnement effectué."));
             ///ResponseEntity.status(HttpStatus.)
         } catch (NoSuchElementException e) {
@@ -61,9 +57,9 @@ public class TopicController {
     public ResponseEntity<?> unsubscribe(@PathVariable Long topicId) {
         try {
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
-            User user=    userService.getUserByMail(email);
 
-            topicService.unsubscribeFromTopic(topicId, user.getId());
+
+            topicService.unsubscribeFromTopic(topicId, email);
             return ResponseEntity.ok(new MessageResponseDTO("Désabonnment Fait"));
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(400).body(e.getMessage());

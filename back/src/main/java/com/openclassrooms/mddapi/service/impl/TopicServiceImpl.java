@@ -1,6 +1,8 @@
 package com.openclassrooms.mddapi.service.impl;
 
 import com.openclassrooms.mddapi.dto.response.TopicResponseDTO;
+import com.openclassrooms.mddapi.exception.TopicNotFoundException;
+import com.openclassrooms.mddapi.exception.UserNotFoundException;
 import com.openclassrooms.mddapi.mapper.TopicMapper;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
@@ -25,9 +27,9 @@ public class TopicServiceImpl implements ITopicService {
     private final TopicMapper topicMapper;
 
     @Override
-    public List<TopicResponseDTO> getAllTopicsWithUserSubscriptions(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+    public List<TopicResponseDTO> getAllTopicsWithUserSubscriptions(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("Utilisateur non trouvé"));
 
         Set<Topic> subscriptions = user.getSubscriptions();
         List<Topic> allTopics = topicRepository.findAll();
@@ -51,22 +53,22 @@ public class TopicServiceImpl implements ITopicService {
     }
 
     @Override
-    public void subscribeToTopic(Long topicId, Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+    public void subscribeToTopic(Long topicId, String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("Utilisateur non trouvé"));
         Topic topic = topicRepository.findById(topicId)
-                .orElseThrow(() -> new NoSuchElementException("Sujet non trouvé"));
+                .orElseThrow(() -> new TopicNotFoundException("Sujet non trouvé"));
 
         user.getSubscriptions().add(topic);
         userRepository.save(user);
     }
 
     @Override
-    public void unsubscribeFromTopic(Long topicId, Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("Utilisateur non trouvé"));
+    public void unsubscribeFromTopic(Long topicId, String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("Utilisateur non trouvé"));
         Topic topic = topicRepository.findById(topicId)
-                .orElseThrow(() -> new NoSuchElementException("Sujet non trouvé"));
+                .orElseThrow(() -> new TopicNotFoundException("Sujet non trouvé"));
 
         user.getSubscriptions().remove(topic);
         userRepository.save(user);
