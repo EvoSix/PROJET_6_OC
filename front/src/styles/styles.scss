@@ -12,7 +12,12 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 main {
-  margin: 20px;
+  margin:20px;
+
+  @media (min-width: 1568px) {
+margin-left:128px;
+margin-right: 128px;
+  }
 }
 label {
   display: block;
