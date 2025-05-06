@@ -40,8 +40,6 @@ export class RegisterComponent {
   onSubmit() {
     this.isSubmitted = true;
     if (this.registerForm.invalid) {
-   
-
       return;
     }
 
@@ -55,7 +53,7 @@ export class RegisterComponent {
         console.log(response);
       },
       error: (error) => {
-        console.error(error);
+        console.error(error.status);
       },
     });
   }
