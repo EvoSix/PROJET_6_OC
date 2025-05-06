@@ -1,10 +1,14 @@
 <section>
-    <p style="font-weight: bold; font-size: 18px; margin-bottom: 16px;">Commentaire</p>
+  <p style="font-weight: bold; font-size: 18px; margin-bottom: 16px">
+    Commentaire
+  </p>
 
-    <div *ngFor="let comment of comments" style="margin-bottom: 16px;">
-      <div style="font-weight: bold; margin-bottom: 4px;">{{ comment.authorUsername }}</div>
-      <div style="background-color: #f0f0f0; padding: 12px; border-radius: 8px;">
-        {{ comment.content }}
-      </div>
+  <div *ngFor="let comment of comments" style="margin-bottom: 16px">
+    <div style="font-weight: bold; margin-bottom: 4px">
+      {{ comment.authorUsername }}
     </div>
-  </section>
+    <div style="background-color: #f0f0f0; padding: 12px; border-radius: 8px">
+      {{ comment.content }}
+    </div>
+  </div>
+</section>

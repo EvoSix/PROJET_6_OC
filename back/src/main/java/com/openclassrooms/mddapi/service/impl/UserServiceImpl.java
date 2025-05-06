@@ -8,6 +8,7 @@ import com.openclassrooms.mddapi.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -18,7 +19,7 @@ public class UserServiceImpl implements IUserService {
 
 
     private final UserRepository userRepository;
-
+    private final PasswordEncoder passwordEncoder;
     @Override
     public User getUserByMail(String email) {
 
@@ -37,7 +38,8 @@ public class UserServiceImpl implements IUserService {
 
         user.setEmail(request.getEmail());
         user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword()); // à encoder plus tard
+        if(!request.getPassword().isEmpty() ){user.setPassword(passwordEncoder.encode(request.getPassword())); }
+     
 
         return userRepository.save(user);
     }

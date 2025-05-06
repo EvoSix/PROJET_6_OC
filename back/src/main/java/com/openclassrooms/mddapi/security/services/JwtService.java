@@ -67,25 +67,6 @@ public class JwtService {
         return extractClaims(token).getSubject();
     }
 
-    /**
-     * Extracts the email from the JWT token.
-     *
-     * @param token the JWT token
-     * @return the email stored in the token
-     */
-    public String extractEmail(String token) {
-        return (String) extractClaims(token).get("email");
-    }
-
-    /**
-     * Extracts the user ID from the JWT token.
-     *
-     * @param token the JWT token
-     * @return the user ID stored in the token
-     */
-    public Long extractUserId(String token) {
-        return (Long) extractClaims(token).get("id");
-    }
 
     /**
      * Checks if the JWT token is expired.

@@ -6,6 +6,7 @@ import { Topic } from 'src/app/interfaces/Topic';
 import { TopicService } from 'src/app/services/topic.service';
 import { SubscriptionsComponent } from './sections/subscriptions/subscriptions.component';
 import { HeaderComponent } from "../../components/Layout/header/header.component";
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-account',
@@ -15,7 +16,7 @@ import { HeaderComponent } from "../../components/Layout/header/header.component
 })
 export class AccountComponent {
   subscribedTopics: Topic[] = [];
-  constructor(private userService: UserService,private topicService: TopicService) {}
+  constructor(private userService: UserService,private topicService: TopicService,private toastService: ToastService) {}
   userData: RegisterRequest | null = null;
   ngOnInit(): void {
     this.userService.getCurrentUser().subscribe({
@@ -35,9 +36,9 @@ export class AccountComponent {
 
       next: (updated) => {
         this.userData = updated;
-        alert('Mise à jour réussie !');
+      this.toastService.show('Informations mises à jour');
       },
-      error: (err) => alert('Erreur lors de la mise à jour.')
+ 
     });
   }
 
@@ -47,10 +48,7 @@ export class AccountComponent {
       next: () => {
         this.subscribedTopics = this.subscribedTopics.filter(t => t.id !== topicId);
       },
-      error: (err) => {
-        console.error('Erreur lors du désabonnement', err);
-        alert('Échec du désabonnement');
-      }
+     
     });
   }
 }

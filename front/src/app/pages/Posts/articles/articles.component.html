@@ -1,32 +1,42 @@
 <app-header></app-header>
 <main>
+  <h2>Liste des articles</h2>
 
-<h2>Liste des articles</h2>
+  <div *ngIf="loading">Chargement...</div>
 
-<div *ngIf="loading">Chargement...</div>
-
-<div *ngIf="!loading && posts.length === 0">Aucun article trouvé.</div>
-<div class="actions">
+  <div *ngIf="!loading && posts.length === 0">Aucun article trouvé.</div>
+  <div class="actions">
     <button routerLink="/articles/create">Créer un article</button>
-    <div class="sort-control" (click)="changeOrder()" role="button" aria-label="Changer l’ordre de tri">
+    <div
+      class="sort-control"
+      (click)="changeOrder()"
+      role="button"
+      aria-label="Changer l’ordre de tri"
+    >
       Trier par
-      <mat-icon>{{ order === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+      <mat-icon>{{
+        order === "asc" ? "arrow_upward" : "arrow_downward"
+      }}</mat-icon>
     </div>
   </div>
-<section class="grid-container">
-    <article class="article-card" *ngFor="let post of posts" [routerLink]="['/post', post.id]"
-    style="cursor: pointer;">
+  <section class="grid-container">
+    <article
+      class="article-card"
+      *ngFor="let post of posts"
+      [routerLink]="['/post', post.id]"
+      style="cursor: pointer"
+    >
       <header>
         <h3 class="title">{{ post.title }}</h3>
         <p class="meta">
-          <time [attr.datetime]="post.createdAt">{{ post.createdAt | date: 'dd/MM/yyyy' }}</time>
+          <time [attr.datetime]="post.createdAt">{{
+            post.createdAt | date : "dd/MM/yyyy"
+          }}</time>
           <span class="author">— {{ post.authorUsername }}</span>
         </p>
       </header>
 
-    
-        <p class="content">{{ post.content }}</p>
-     
+      <p class="content">{{ post.content }}</p>
     </article>
   </section>
 </main>

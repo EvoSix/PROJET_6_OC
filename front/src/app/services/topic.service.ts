@@ -20,7 +20,9 @@ export class TopicService {
     return this.http.get<Topic[]>(`${this.apiUrl}topics/all`);
   }
   unsubscribeFromTopic(topicId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}topics/${topicId}/unsubscribe`, {});
+    return this.http.delete<void>(
+      `${this.apiUrl}topics/${topicId}/unsubscribe`,
+      {}
+    );
   }
-
 }

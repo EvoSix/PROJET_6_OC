@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../../../components/Layout/header/header.component';
+
 import { CommonModule } from '@angular/common';
 
 import { PostService } from 'src/app/services/post.service';
 import { Post } from 'src/app/interfaces/Posts';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { HeaderComponent } from '../../../components/Layout/header/header.component';
 
 @Component({
   selector: 'app-articles',
-  imports: [CommonModule, HeaderComponent, RouterModule, MatIconModule],
+  imports: [CommonModule, RouterModule, MatIconModule, HeaderComponent],
   templateUrl: './articles.component.html',
   styleUrl: './articles.component.scss',
 })

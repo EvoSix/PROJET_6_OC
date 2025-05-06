@@ -9,7 +9,7 @@ export const loggedGuard: CanActivateFn = (route, state) => {
   return authService.isLoggedIn$.pipe(
     tap((isLoggedin: boolean) => {
       if (isLoggedin) {
-        router.navigateByUrl('/posts');
+        router.navigateByUrl('/articles');
       }
     }),
     map(() => true)

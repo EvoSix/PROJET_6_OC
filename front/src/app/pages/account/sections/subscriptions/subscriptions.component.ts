@@ -6,7 +6,7 @@ import { Topic } from 'src/app/interfaces/Topic';
   selector: 'app-subscriptions',
   imports: [CommonModule],
   templateUrl: './subscriptions.component.html',
-  styleUrl: './subscriptions.component.scss'
+  styleUrl: './subscriptions.component.scss',
 })
 export class SubscriptionsComponent {
   @Input() topics: Topic[] = [];

@@ -11,6 +11,8 @@ import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthInterceptor } from './app/interceptors/auth.interceptor';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HeaderComponent } from './app/components/Layout/header/header.component';
 
 if (environment.production) {
   enableProdMode();
@@ -19,7 +21,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
     provideAnimations(),
-    importProvidersFrom(MatButtonModule),  provideHttpClient(  withInterceptorsFromDi(), ) ,
+     provideHttpClient(  withInterceptorsFromDi(), ) ,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
 });

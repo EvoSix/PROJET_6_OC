@@ -25,13 +25,11 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     const token = localStorage.getItem('token');
 
-    if (!token) return next.handle(req);
-
-    const authReq = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const authReq = token
+      ? req.clone({
+          headers: req.headers.set('Authorization', `Bearer ${token}`),
+        })
+      : req;
 
     return next.handle(authReq).pipe(
       catchError((err) => {
@@ -43,6 +41,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
           this.router.navigate(['/login']);
         }
+        if (err.status === 500 && err.status === 503) {
+          this.authService.logout();
+          this.toastService.show(err.error.message);
+
+          this.router.navigate(['/login']);
+        } else this.toastService.show(err.error.message);
         return throwError(() => err);
       })
     );

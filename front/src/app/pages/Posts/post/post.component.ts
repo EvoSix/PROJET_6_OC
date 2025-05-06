@@ -6,18 +6,18 @@ import { PostService } from 'src/app/services/post.service';
 import { CommentArticle } from 'src/app/interfaces/Comment';
 import { PostCommentsComponent } from '../components/post-comments/post-comments.component';
 import { PostContentComponent } from '../components/post-content/post-content.component';
-import { PostCommentFormComponent } from "../components/post-comment-form/post-comment-form.component";
-import { HeaderComponent } from "../../../components/Layout/header/header.component";
+import { PostCommentFormComponent } from '../components/post-comment-form/post-comment-form.component';
+import { HeaderComponent } from '../../../components/Layout/header/header.component';
 @Component({
   selector: 'app-post',
   imports: [
     CommonModule,
-    
+
     PostCommentsComponent,
     PostContentComponent,
     PostCommentFormComponent,
-    HeaderComponent
-],
+    HeaderComponent,
+  ],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss',
 })

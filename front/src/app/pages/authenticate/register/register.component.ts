@@ -11,9 +11,11 @@ import { HeaderComponent } from '../../../components/Layout/header/header.compon
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-register',
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     HeaderComponent,
     MatIconModule,

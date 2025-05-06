@@ -11,11 +11,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { HeaderComponent } from '../../../components/Layout/header/header.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatSnackBarModule,
+
     MatIconModule,
     HeaderComponent,
   ],
@@ -40,7 +41,7 @@ export class LoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private snackbar: MatSnackBar,
+    private toastService: ToastService,
     private router: Router
   ) {
     this.loginForm = this.formBuilder.group({
@@ -68,14 +69,8 @@ export class LoginComponent {
         this.loading = false;
         localStorage.setItem('token', response.token ?? '');
         this.authService.setLoggedIn(response.token ?? '');
-        this.snackbar.open(response.message, 'Fermer', { duration: 3000 });
+        this.toastService.show('Connexion reussie');
         this.router.navigateByUrl('/articles');
-      },
-      error: (err) => {
-        this.loading = false;
-        const msg =
-          err?.error?.message || err?.error?.error || 'Erreur inconnue';
-        this.snackbar.open(msg, 'Fermer', { duration: 3000 });
       },
     });
   }

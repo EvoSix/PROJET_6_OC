@@ -7,10 +7,11 @@
     <ng-container *ngIf="isLoggedIn$ | async">
       <nav class="desktop-only">
         <button class="nav-logout" (click)="logout()">Déconnexion</button>
-        <a  routerLink="/articles" routerLinkActive="active">Articles</a>
-        <a  routerLink="/themes" routerLinkActive="active">Topics</a>
-        <a  routerLink="/account" class="avatar"><img src="/assets/user.png" alt="Profil" /></a> 
-  
+        <a routerLink="/articles" routerLinkActive="active">Articles</a>
+        <a routerLink="/themes" routerLinkActive="active">Topics</a>
+        <a routerLink="/account" class="avatar"
+          ><img src="/assets/user.png" alt="Profil"
+        /></a>
       </nav>
     </ng-container>
 
@@ -18,18 +19,18 @@
       <mat-icon>menu</mat-icon>
     </button>
   </mat-toolbar>
-    <div class="drawer-overlay" *ngIf="menuOpen" (click)="toggleMenu()"></div>
+  <div class="drawer-overlay" *ngIf="menuOpen" (click)="toggleMenu()"></div>
   <div class="mobile-drawer" [class.open]="menuOpen">
-
     <button mat-icon-button class="close-btn" (click)="toggleMenu()">
       <mat-icon>close</mat-icon>
     </button>
     <nav>
-      <a  class="nav-logout" (click)="logout()">Déconnexion</a>
-      <a  routerLink="/articles">Articles</a>
-      <a  routerLink="/themes">Topics</a>
-      <a  routerLink="/account" class="avatar"> <img src="/assets/user.png" alt="Profil"  /></a>
-   
+      <a class="nav-logout" (click)="logout()">Déconnexion</a>
+      <a routerLink="/articles">Articles</a>
+      <a routerLink="/themes">Topics</a>
+      <a routerLink="/account" class="avatar">
+        <img src="/assets/user.png" alt="Profil"
+      /></a>
     </nav>
   </div>
 </header>

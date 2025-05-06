@@ -4,12 +4,11 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { RegisterRequest } from '../interfaces/registerRequest';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-   // Adapter si le préfixe est différent
+  // Adapter si le préfixe est différent
 
   constructor(private http: HttpClient) {}
   private apiUrl = environment.baseUrl;

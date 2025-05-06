@@ -7,18 +7,28 @@ import { RegisterRequest } from 'src/app/interfaces/registerRequest';
 
 @Component({
   selector: 'app-user-section',
-  imports: [ReactiveFormsModule,CommonModule,FormsModule,MatFormFieldModule,MatInputModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
   templateUrl: './user.component.html',
-  styleUrl: './user.component.scss'
+  styleUrl: './user.component.scss',
 })
 export class UserComponent {
   @Input() user: { username: string; email: string } | null = null;
-  @Output() save = new EventEmitter<{ username: string; email: string; password: string }>();
+  @Output() save = new EventEmitter<{
+    username: string;
+    email: string;
+    password: string;
+  }>();
 
   form = {
     username: '',
     email: '',
-    password: ''
+    password: '',
   };
 
   ngOnChanges() {
@@ -29,10 +39,10 @@ export class UserComponent {
   }
 
   onSubmit() {
-    const payload:RegisterRequest = {
+    const payload: RegisterRequest = {
       username: this.form.username,
       email: this.form.email,
-      password: this.form.password 
+      password: this.form.password,
     };
     this.save.emit(payload);
   }
