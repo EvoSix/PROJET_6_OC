@@ -27,10 +27,10 @@ To configure the backend, modify the application.properties, modify the env vari
 # Database Configuration
 DB_USERNAME=your_username
 DB_PASSWORD=your_password
+DATABASE_URL=URL to your Database
 
 # JWT Configuration
 JWT_SECRET=your_secret_key
-JWT_EXPIRATION=3600000
 ```
 
 ### Setting Up the Database
