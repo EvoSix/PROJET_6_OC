@@ -17,6 +17,7 @@ import { TopicService } from 'src/app/services/topic.service';
 import { Topic } from 'src/app/interfaces/Topic';
 import { CommonModule } from '@angular/common';
 import { Post } from 'src/app/interfaces/Posts';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-create',
@@ -47,6 +48,7 @@ export class CreateComponent {
       topicId: ['', Validators.required],
     });
   }
+  private destroy$ = new Subject<void>();
   ngOnInit(): void {
     this.topicService.getAllTopics().subscribe({
       next: (topics) => (this.topics = topics),
@@ -65,11 +67,15 @@ export class CreateComponent {
       content: this.postForm.value.content,
       topicId: this.postForm.value.topicId,
     };
-    this.postService.createPost(payload).subscribe({
+    this.postService.createPost(payload).pipe(takeUntil(this.destroy$)).subscribe({
       next: (response: Post) => {
         this.router.navigate([`/post/${response.id}`]);
       },
       error: (err) => console.error('Erreur lors de la création', err),
     });
+  }
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

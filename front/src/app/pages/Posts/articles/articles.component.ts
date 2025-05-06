@@ -7,6 +7,7 @@ import { Post } from 'src/app/interfaces/Posts';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { HeaderComponent } from '../../../components/Layout/header/header.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-articles',
@@ -19,14 +20,14 @@ export class ArticlesComponent {
   posts: Post[] = [];
   loading = true;
   constructor(private postService: PostService) {}
-
+  private destroy$ = new Subject<void>();
   ngOnInit(): void {
     this.loadPosts();
   }
 
   loadPosts() {
     this.loading = true;
-    this.postService.getAllPosts(this.order).subscribe({
+    this.postService.getAllPosts(this.order).pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => {
         this.posts = data;
         this.loading = false;
@@ -41,5 +42,9 @@ export class ArticlesComponent {
   changeOrder() {
     this.order = this.order === 'asc' ? 'desc' : 'asc';
     this.loadPosts();
+  }
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

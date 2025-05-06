@@ -17,6 +17,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { HeaderComponent } from '../../../components/Layout/header/header.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastService } from 'src/app/services/toast.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -49,7 +50,7 @@ export class LoginComponent {
       password: ['', Validators.required],
     });
   }
-
+  private destroy$ = new Subject<void>();
   get f() {
     return this.loginForm.controls;
   }
@@ -64,7 +65,7 @@ export class LoginComponent {
       email: this.f['identifier'].value,
       password: this.f['password'].value,
     };
-    this.authService.login(payload).subscribe({
+    this.authService.login(payload).pipe(takeUntil(this.destroy$)).subscribe({
       next: (response) => {
         this.loading = false;
         localStorage.setItem('token', response.token ?? '');
@@ -74,4 +75,11 @@ export class LoginComponent {
       },
     });
   }
+
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
 }

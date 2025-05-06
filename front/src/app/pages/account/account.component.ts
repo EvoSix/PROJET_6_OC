@@ -7,6 +7,7 @@ import { TopicService } from 'src/app/services/topic.service';
 import { SubscriptionsComponent } from './sections/subscriptions/subscriptions.component';
 import { HeaderComponent } from "../../components/Layout/header/header.component";
 import { ToastService } from 'src/app/services/toast.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-account',
@@ -18,8 +19,10 @@ export class AccountComponent {
   subscribedTopics: Topic[] = [];
   constructor(private userService: UserService,private topicService: TopicService,private toastService: ToastService) {}
   userData: RegisterRequest | null = null;
+  private destroy$ = new Subject<void>();
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe({
+    this.userService.getCurrentUser().pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (user) => this.userData = user,
       error: (err) => console.error('Erreur lors du chargement des infos utilisateur', err)
     });
@@ -31,8 +34,9 @@ export class AccountComponent {
     });
   }
 
+
   onUpdateUser(data: RegisterRequest) {
-    this.userService.updateUser(data).subscribe({
+    this.userService.updateUser(data).pipe(takeUntil(this.destroy$)).subscribe({
 
       next: (updated) => {
         this.userData = updated;
@@ -44,11 +48,16 @@ export class AccountComponent {
 
 
   onUnsubscribe(topicId: number) {
-    this.topicService.unsubscribeFromTopic(topicId).subscribe({
+    this.topicService.unsubscribeFromTopic(topicId).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         this.subscribedTopics = this.subscribedTopics.filter(t => t.id !== topicId);
       },
      
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

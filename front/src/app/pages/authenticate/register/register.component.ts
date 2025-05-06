@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-register',
   imports: [
@@ -39,6 +40,7 @@ export class RegisterComponent {
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
+  private destroy$ = new Subject<void>();
   onSubmit() {
     this.isSubmitted = true;
     if (this.registerForm.invalid) {
@@ -50,7 +52,7 @@ export class RegisterComponent {
       email: this.registerForm.value.email,
       password: this.registerForm.value.password,
     };
-    this.authService.register(payload).subscribe({
+    this.authService.register(payload).pipe(takeUntil(this.destroy$)).subscribe({
       next: (response) => {
         console.log(response);
       },
@@ -58,5 +60,9 @@ export class RegisterComponent {
         console.error(error.status);
       },
     });
+  }
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

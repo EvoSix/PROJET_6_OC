@@ -8,6 +8,7 @@ import { PostCommentsComponent } from '../components/post-comments/post-comments
 import { PostContentComponent } from '../components/post-content/post-content.component';
 import { PostCommentFormComponent } from '../components/post-comment-form/post-comment-form.component';
 import { HeaderComponent } from '../../../components/Layout/header/header.component';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-post',
   imports: [
@@ -30,6 +31,7 @@ export class PostComponent {
     private route: ActivatedRoute,
     private postService: PostService
   ) {}
+  private destroy$ = new Subject<void>();
   ngOnInit(): void {
     this.articleId = this.route.snapshot.paramMap.get('id');
     if (this.articleId) {
@@ -41,7 +43,7 @@ export class PostComponent {
 
   fetchPostWithComments(id: string) {
     this.loading = true;
-    this.postService.getPostWithComments(id).subscribe({
+    this.postService.getPostWithComments(id).pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => {
         this.post = data.post;
         this.comments = data.comments;
@@ -56,7 +58,7 @@ export class PostComponent {
   submitNewComment(content: string) {
     if (!this.articleId) return;
 
-    this.postService.commentOnPost(this.articleId, { content }).subscribe({
+    this.postService.commentOnPost(this.articleId, { content }).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         // Optionnel : tu peux recharger les commentaires ici
         this.fetchPostWithComments(this.articleId!);
@@ -65,5 +67,9 @@ export class PostComponent {
         console.error("Erreur lors de l'envoi du commentaire :", err);
       },
     });
+  }
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
