@@ -39,7 +39,7 @@ public class UserServiceImpl implements IUserService {
         user.setEmail(request.getEmail());
         user.setUsername(request.getUsername());
         if(!request.getPassword().isEmpty() ){user.setPassword(passwordEncoder.encode(request.getPassword())); }
-     
+
 
         return userRepository.save(user);
     }
