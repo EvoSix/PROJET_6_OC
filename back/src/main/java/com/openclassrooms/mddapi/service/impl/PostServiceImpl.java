@@ -46,7 +46,7 @@ public class PostServiceImpl implements IPostService {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmailOrUsername(email)
-                .orElseThrow(() -> new NoSuchElementException("Utilisateur connecté non trouvé"));
+                .orElseThrow(() -> new UserNotFoundException("Utilisateur connecté non trouvé"));
 
 
 
