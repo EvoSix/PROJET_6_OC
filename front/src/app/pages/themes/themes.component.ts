@@ -4,7 +4,7 @@ import { Topic } from 'src/app/interfaces/Topic';
 import { HeaderComponent } from '../../components/Layout/header/header.component';
 import { CommonModule } from '@angular/common';
 import { TopicService } from 'src/app/services/topic.service';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-themes',
@@ -28,7 +28,7 @@ export class ThemesComponent {
   }
 
   subscribeTopic(topic: Topic): void {
-    this.topicService.subscribeToTopic(topic.id).subscribe({
+    this.topicService.subscribeToTopic(topic.id).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         topic.subscribed = true;
       },
