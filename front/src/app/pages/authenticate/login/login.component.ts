@@ -73,6 +73,9 @@ export class LoginComponent {
         this.toastService.show('Connexion reussie');
         this.router.navigateByUrl('/articles');
       },
+      error: () => {
+        this.loading = false;
+      }
     });
   }
 

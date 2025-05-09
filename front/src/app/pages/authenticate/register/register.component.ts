@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
+import { ToastService } from 'src/app/services/toast.service';
 @Component({
   selector: 'app-register',
   imports: [
@@ -32,7 +33,8 @@ export class RegisterComponent {
 
   constructor(
     private formRegister: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastService: ToastService
   ) {
     this.registerForm = this.formRegister.group({
       username: ['', Validators.required],
@@ -41,7 +43,6 @@ export class RegisterComponent {
         '',
         [
           Validators.required,
-          Validators.minLength(8),
           Validators.pattern(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&._\-])[A-Za-z\d@$!%*?&._\-]{8,}$/
           ),
@@ -66,10 +67,7 @@ export class RegisterComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          console.log(response);
-        },
-        error: (error) => {
-          console.error(error.status);
+          this.toastService.show(response.message);
         },
       });
   }
